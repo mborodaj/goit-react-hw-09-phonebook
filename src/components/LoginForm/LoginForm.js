@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { TextField, Button } from '@material-ui/core';
 import s from './LoginForm.module.css';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authOperations } from '../../redux/auth';
 
 const validation = Yup.object({
@@ -14,15 +14,17 @@ const validation = Yup.object({
     .required('Password is required'),
 });
 
-const LoginForm = ({ onLoginUser }) => {
+export default function LoginForm() {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema: validation,
-    onSubmit: values => {
-      onLoginUser(values);
+    onSubmit: (values, { resetForm }) => {
+      dispatch(authOperations.loginUser(values));
+      resetForm();
     },
   });
 
@@ -66,10 +68,4 @@ const LoginForm = ({ onLoginUser }) => {
       </form>
     </div>
   );
-};
-
-const mapDispatchToProps = {
-  onLoginUser: authOperations.loginUser,
-};
-
-export default connect(null, mapDispatchToProps)(LoginForm);
+}

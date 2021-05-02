@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './RegisterForm.module.css';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, TextField } from '@material-ui/core';
@@ -21,7 +21,9 @@ const validationSchema = yup.object({
     .required('Enter your password'),
 });
 
-function RegisterForm({ addUserToDb }) {
+export default function RegisterForm() {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -40,7 +42,7 @@ function RegisterForm({ addUserToDb }) {
       email: values.email,
       password: values.password,
     };
-    addUserToDb(newUser);
+    dispatch(authOperations.registerNewUser(newUser));
     resetForm();
   }
 
@@ -97,9 +99,3 @@ function RegisterForm({ addUserToDb }) {
     </div>
   );
 }
-
-const mapDispatchToProps = {
-  addUserToDb: authOperations.registerNewUser,
-};
-
-export default connect(null, mapDispatchToProps)(RegisterForm);

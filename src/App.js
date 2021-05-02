@@ -1,11 +1,11 @@
-import { Component, Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { authOperations, authSelectors } from './redux/auth';
+import { useDispatch } from 'react-redux';
+import { authOperations } from './redux/auth';
 import { Container } from '@material-ui/core';
 import PrivateRouter from './components/PrivateRouter';
 import PublicRouter from './components/PublicRouter';
-import Navigation from './components/Navigation';
+import Navigation from './components/Navigation/Navigation';
 
 const HomePage = lazy(() =>
   import('./views/HomePage' /* webpackChunkName: "home-page" */),
@@ -20,47 +20,36 @@ const LoginPage = lazy(() =>
   import('./views/LoginPage' /* webpackChunkName: "login-page" */),
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.getCurrentUser();
-  }
+export default function App() {
+  const dispatch = useDispatch();
 
-  render() {
-    console.log(Boolean(this.props.token));
-    return (
-      <>
-        <Container maxWidth="md">
-          <Navigation />
-          <Suspense fallback="loading">
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              <PrivateRouter path="/contacts" exact component={ContactsPage} />
-              <PublicRouter
-                path="/login"
-                restricted
-                exact
-                component={LoginPage}
-              />
-              <PublicRouter
-                path="/register"
-                restricted
-                exact
-                component={RegistrationPage}
-              />
-            </Switch>
-          </Suspense>
-        </Container>
-      </>
-    );
-  }
+  useEffect(() => {
+    dispatch(authOperations.getCurrentUser());
+  }, [dispatch]);
+
+  return (
+    <>
+      <Container maxWidth="md">
+        <Navigation />
+        <Suspense fallback="loading">
+          <Switch>
+            <Route path="/" exact component={HomePage} />
+            <PrivateRouter path="/contacts" exact component={ContactsPage} />
+            <PublicRouter
+              path="/login"
+              restricted
+              exact
+              component={LoginPage}
+            />
+            <PublicRouter
+              path="/register"
+              restricted
+              exact
+              component={RegistrationPage}
+            />
+          </Switch>
+        </Suspense>
+      </Container>
+    </>
+  );
 }
-
-const mapStateToProps = state => ({
-  token: authSelectors.getToken(state),
-});
-
-const mapDispatchToProps = {
-  getCurrentUser: authOperations.getCurrentUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

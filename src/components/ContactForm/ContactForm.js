@@ -1,85 +1,67 @@
-import { Component } from 'react';
+import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import styles from './ContactForm.module.css';
 import { TextField, Button } from '@material-ui/core';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { contactsOperations, contactsSelectors } from '../../redux/contacts';
+import { contactsOperations } from '../../redux/contacts';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export default function ContactForm() {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  getContactData = event => {
+  const dispatch = useDispatch();
+
+  const getContactData = useCallback(event => {
     const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-  };
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        console.warn(`Error`);
+    }
+  }, []);
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    const { name, number } = this.state;
-    const { addContact } = this.props;
-
-    this.resetForm();
-
-    addContact(name, number);
-    console.log(addContact);
+    dispatch(contactsOperations.addContact(name, number));
   };
 
-  resetForm = () => {
-    this.setState({ name: '', number: '' });
-  };
-
-  render() {
-    console.log(this.props);
-    return (
-      <div className={styles.container}>
-        <form onSubmit={this.handleSubmit} className={styles.formContainer}>
-          <TextField
-            style={{ margin: 10 }}
-            fullWidth
-            name="name"
-            label="Name"
-            type="text"
-            value={this.state.name}
-            onChange={this.getContactData}
-          />
-          <TextField
-            style={{ marginBottom: 20 }}
-            fullWidth
-            name="number"
-            label="Phone number"
-            type="text"
-            value={this.state.number}
-            onChange={this.getContactData}
-          />
-          <Button
-            disableRipple
-            color="primary"
-            variant="contained"
-            fullWidth
-            type="submit"
-          >
-            Add contact
-          </Button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
+        <TextField
+          style={{ margin: 10 }}
+          fullWidth
+          name="name"
+          label="Name"
+          type="text"
+          value={name}
+          onChange={getContactData}
+        />
+        <TextField
+          style={{ marginBottom: 20 }}
+          fullWidth
+          name="number"
+          label="Phone number"
+          type="text"
+          value={number}
+          onChange={getContactData}
+        />
+        <Button
+          disableRipple
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+        >
+          Add contact
+        </Button>
+      </form>
+    </div>
+  );
 }
-
-const mapStateToProps = state => ({
-  contacts: contactsSelectors.getAllContacts(state),
-});
-
-const mapDispatchToProps = {
-  addContact: contactsOperations.addContact,
-};
-
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

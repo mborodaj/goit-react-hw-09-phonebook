@@ -1,46 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Filter.module.css';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { contactsAction, contactsSelectors } from '../../redux/contacts';
 import { TextField } from '@material-ui/core';
 
-class Filter extends Component {
-  filterHandler = event => {
-    const { value } = event.currentTarget;
-    const { filterContacts } = this.props;
-    filterContacts(value);
-  };
+export default function Filter() {
+  const dispatch = useDispatch();
+  const filterValue = useSelector(contactsSelectors.getFilterValue);
 
-  render() {
-    const { filterValue } = this.props;
-    return (
-      <div className={styles.filterContainer}>
-        <TextField
-          fullWidth
-          style={{ marginBottom: 10 }}
-          name="filter"
-          label="Contact search"
-          value={filterValue}
-          onChange={this.filterHandler}
-        />
-      </div>
-    );
-  }
+  const filterHandler = e => {
+    const { value } = e.currentTarget;
+
+    dispatch(contactsAction.filterContacts(value));
+  };
+  return (
+    <div className={styles.filterContainer}>
+      <TextField
+        fullWidth
+        style={{ marginBottom: 10 }}
+        name="filter"
+        label="Contact search"
+        value={filterValue}
+        onChange={filterHandler}
+      />
+    </div>
+  );
 }
 
-const mapStateToProps = state => ({
-  filterValue: contactsSelectors.getFilterValue(state),
-});
-
-const mapDispatchToProps = {
-  filterContacts: contactsAction.filterContacts,
-};
-
 Filter.propTypes = {
-  filterContacts: PropTypes.func.isRequired,
   filterValue: PropTypes.string.isRequired,
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
