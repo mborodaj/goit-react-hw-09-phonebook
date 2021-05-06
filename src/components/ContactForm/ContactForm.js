@@ -25,9 +25,14 @@ export default function ContactForm() {
     }
   }, []);
 
+  const resetForm = () => {
+    setName('');
+    setNumber('');
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
-
+    resetForm();
     dispatch(contactsOperations.addContact(name, number));
   };
 

@@ -5,8 +5,8 @@
     "static/js/1.de5d4215.chunk.js": "/static/js/1.de5d4215.chunk.js",
     "static/js/1.de5d4215.chunk.js.map": "/static/js/1.de5d4215.chunk.js.map",
     "contacts-page.css": "/static/css/contacts-page.0282ea9a.chunk.css",
-    "contacts-page.js": "/static/js/contacts-page.f56001bc.chunk.js",
-    "contacts-page.js.map": "/static/js/contacts-page.f56001bc.chunk.js.map",
+    "contacts-page.js": "/static/js/contacts-page.120aeceb.chunk.js",
+    "contacts-page.js.map": "/static/js/contacts-page.120aeceb.chunk.js.map",
     "home-page.css": "/static/css/home-page.83387700.chunk.css",
     "home-page.js": "/static/js/home-page.0da14259.chunk.js",
     "home-page.js.map": "/static/js/home-page.0da14259.chunk.js.map",
@@ -19,8 +19,8 @@
     "register-page.css": "/static/css/register-page.6e6d3b82.chunk.css",
     "register-page.js": "/static/js/register-page.fa71e01d.chunk.js",
     "register-page.js.map": "/static/js/register-page.fa71e01d.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.e852d79c.js",
-    "runtime-main.js.map": "/static/js/runtime-main.e852d79c.js.map",
+    "runtime-main.js": "/static/js/runtime-main.841a5c27.js",
+    "runtime-main.js.map": "/static/js/runtime-main.841a5c27.js.map",
     "static/js/8.75353ea3.chunk.js": "/static/js/8.75353ea3.chunk.js",
     "static/js/8.75353ea3.chunk.js.map": "/static/js/8.75353ea3.chunk.js.map",
     "index.html": "/index.html",
@@ -33,7 +33,7 @@
     "static/js/8.75353ea3.chunk.js.LICENSE.txt": "/static/js/8.75353ea3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.e852d79c.js",
+    "static/js/runtime-main.841a5c27.js",
     "static/js/8.75353ea3.chunk.js",
     "static/css/main.f411be9d.chunk.css",
     "static/js/main.5a490e23.chunk.js"
